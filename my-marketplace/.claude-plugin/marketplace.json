@@ -1,0 +1,13 @@
+{
+  "name": "norels-marketplace",
+  "owner": {
+    "name": "Norel Glick"
+  },
+  "plugins": [
+    {
+      "name": "software-engineer-workflow",
+      "source": "./plugins/software-engineer-workflow",
+      "description": "Adds a workflow for engineering software"
+    }
+  ]
+}
