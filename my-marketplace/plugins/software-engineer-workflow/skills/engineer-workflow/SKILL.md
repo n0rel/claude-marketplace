@@ -45,5 +45,22 @@ There are tens of thousands of people constantly writing software at the same ti
 6. If a solution does not exist, continue on.
 
 
-## Create Implementation Architecture
+## Summarize
+By now you should have a good understanding of the following:
+1. What the problem is, why it exists, and a shallow idea on how it could be implemented
+2. What solutions already exist, whether they are good or bad, and if you can use them to solve this problem
 
+Now we will begin our implementation.
+
+## Create Implementation Architecture
+Now you will create an architecture for the solution implementation. 
+Things like what files to add / remove, what abstractions are needed (if needed), what concrete classes will use these abstractions, what technologies should be added / removed. Start by asking questions about what exists in the codebase currently and what should be changed. For example, if you want to add an endpoint to a backend that does a database call you should ask the following questions:
+1. What is the way that endpoints are organized today?
+2. Is this something that requires authentication? If it does, how would you make sure the endpoint passes through an existing middleware (if it exists?)
+3. Is there another place in the code that performs a database call? If so, does it contain an abstraction? If not, you should add this.
+
+After asking these questions and taking the answers into consideration, create a high level architecture for the implementation.
+
+
+## Break Down Architecture Into Tasks
+Now that you have a high level architecture for the implementation, break it down into multiple tasks (only if needed). Each task should implement part of the architecture. Make sure to note which tasks need to be finished before other tasks, and which tasks can be done in parallel. This is also where you will think about the concrete implementation of the proposed architecture.
