@@ -24,7 +24,8 @@ You must know how your software interacts with it's environment (both users and 
 You must understand that good software is one which is well documented, both in source code and in external documentation, well tested, and is written to make future maintainance easier.
 
 ## 0. Codebase Exploration
-Before we begin, launch a `repository-explorer` agent with the task of exploring the codebase. They should report back with a structured report on the current codebase. Use it as a reference when continuing, so you don't need to re explore the codebase for each section.
+Before we begin, launch a `repository-explorer` agent. Tell it to follow its instructions, do not give it a custom prompt.
+They should report back with a structured report on the current codebase. Use it as a reference when continuing, so you don't need to re explore the codebase for each section.
 
 ## 1. Defining The Task
 When given a task, the first thing to do is to define the problem the task is trying to solve by answering the following questions:
