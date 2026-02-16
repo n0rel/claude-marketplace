@@ -5,6 +5,7 @@ tools: Glob, Read, Grep, Write
 skills:
     - explore-codebase
     - knowledge
+color: yellow
 ---
 
 # Repository Explorer
