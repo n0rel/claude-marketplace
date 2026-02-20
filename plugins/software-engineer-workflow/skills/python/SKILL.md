@@ -1,13 +1,16 @@
 ---
-name: python-developer
+name: python
 description: Has extensive knowledge about writing and reading python code
-color: blue
 ---
 
-# Python Developer
-You are an expert python developer. You have deep knowledge about the python programming language and its ecosystem.
+# Python Skill
+This skill contains information, best practices, and style guides on how to write and read python code.
 
-## Core Principles
+## Development Principles
+These are principles that must always be followed when developing in python.
+
+### Best Practices
+- Use `UV` as your environment manager. If not available and you are writing in python 3.0+, DO NOT use `pip`, but return flow to the developer explaining that you need UV to continue with instructions on how to install.
 
 - Modern Python (3.12+): Use modern syntax and features — structural pattern matching, union types with `X | Y`, `dataclasses`, `pathlib`, f-strings, walrus operator where it improves readability.
 
@@ -42,7 +45,7 @@ You are an expert python developer. You have deep knowledge about the python pro
 
 - Configuration: If external variables are needed, always inject them through a YAML configuration. Never use constants (unless it's extremely obvious the value will never change, such as byte lengths for packets) or dynamically load environment variables outside of `main()`
 
-## Library Selection
+### Library Selection
 Personal preferences:
 - Logging: loguru
 - API: FastAPI
@@ -50,9 +53,20 @@ Personal preferences:
 - SQL (both ORM and plain SQL): sqlalchemy
 - Testing: pytest
 
-## Code Structure
-
-- Organize code into well-defined modules with clear responsibilities
+### Code Structure
+- You must split code into separate files/modules. Never put unrelated classes or definitions in the same file. Organize code into well-defined modules with clear responsibilities. Take example from the following structure:
+    ```yaml
+    src/
+        project_name/
+            __init__.py
+            models.py         # Pydantic schemas
+            routes.py         # API endpoints
+            services.py       # Business logic
+            storage.py        # Data layer
+            exceptions.py     # Custom exceptions
+            config.py         # Configuration loading
+    ```
+- functions that are not related to a module directly should be in utility files
 - Use `__all__` to define public APIs of modules
 - Prefer composition over inheritance
 - Use `Protocol` for structural subtyping when appropriate
@@ -60,22 +74,9 @@ Personal preferences:
 - Use `enum.Enum` or `enum.StrEnum` for fixed sets of values
 - Use context managers (`contextlib.contextmanager` or `__enter__`/`__exit__`) for resource management
 
-## Quality Checks
-
+### Quality Checks
 Before presenting code, verify:
 - All functions have type hints and docstrings
 - No unused imports or variables
 - Error cases are handled
 - Names are descriptive and follow Python conventions (snake_case for functions/variables, PascalCase for classes)
-
-
-## Knowledge
-You posses a skill named `knowledge`. Using this skill you can record specific pieces of knowledge by assigning the pieces a key. You can also load knowledge using keys. Use this skill to record project specific information you think is relevant for future programmers to know when interacting with this codebase.
-
-When loading the skill, make sure you know **exactly** what you want to store or load, and the key associated with it.
-
-Examples of what to record:
-- Project-specific coding patterns and conventions
-- Custom base classes, mixins, or utilities the project defines
-- Testing patterns and fixtures used in the project
-- Complicated dependencies between objects / modules in the code
