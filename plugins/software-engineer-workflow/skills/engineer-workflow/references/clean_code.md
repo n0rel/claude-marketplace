@@ -124,7 +124,8 @@ Now `check_age` only checks the age - it does exactly it's called. `read_age_fro
 
 
 ## OCP (Open Closed Principle)
-The Open Closed Principle states that you should be able to extend the behavior of a component _without_ having to modify it. This principle is extremely simple, as it builds off of SRP: _Why_ will this component _change_?
+The Open Closed Principle states that you should be able to extend the behavior of a component _without_ having to modify it.
+This is a very high level principle and is applied through all the other principles, so keep it in mind.
 
 
 ## LSP (Liskov Substitution Principle)
@@ -145,8 +146,8 @@ class DataRepository[T](Protocol):
 ```
 
 The `DataRepository` class uses LSP (and so, OCP & SRP) because it defines a _type_ which contains the following functionality:
-- Get data `T`
-- Store data `T`
+- Get data of type `T`
+- Store data if type `T`
 
 Any component which wants to enforce SRP and uses the `DataRepository` type is interested in the functionality of storing and retrieving `T`, not in the implementation of _how_ `T` is stored. By defining the `DataRepository` type, we can now implement _subtypes_ according to our needs without having to force change upon components that depend upon it. 
 
@@ -165,3 +166,56 @@ class FileRepository[T: str](DataRepository[T]):
 ```
 
 Now any components that rely upon the `DataRepository` type for storing and retrieving data can benefit from the functionality of storing and retreiving strings from a file.
+
+### LSP Violation Example
+Here is an example of violating the LSP principle:
+```C#
+public class MariaDBManager
+{
+    ...
+    public void GetData() { return this.connection.execute("SELECT * FROM `data`"); }
+}
+
+class Program {
+
+    private static void AddUser(MariaDBManager db) { ... }
+
+    static void Main(string[] args)
+    {
+        MariaDBManager db = new MariaDBManager(...);
+        AddUser(db);
+    }
+}
+```
+
+In the above code we have a component `MariaDBManager` that manages a connection to a MariaDB database. In our `Main()` function, we call a function `AddUser` which takes a `MariaDBManager` component. 
+
+Although this complies with the Single Responsibility Principle due to seperation of concerns, it does not comply with LSP because it does not make the program extendable! If the database implementation was to be changed from MariaDB to MSSQL, then either the entire class needs to be rewritten (which loses functionality) or a new class needs to be written. If the downstream consumer of the class did not change itself to commemorate the change to MSSQL (such as initializing the new class, or changes to specific function arguments in the rewritten version of the old class) the program will break.
+
+
+## ISP (Interface Segregation Principle)
+The Interface Segregation Principle is very simple if SRP is followed correctly: Seperate interfaces into components.
+The idea behind ISP is that no code should be forced to be dependent on functionality it _does not use_. If you design your interfaces with SRP in mind, this won't happen, but this principle helps enforce it.
+
+This principle is very strong in the `rust` language, where traits are used to abstract implementations
+
+### Example of using ISP
+```rust
+pub struct Data<T: Write + Clone> {
+    name: T
+}
+
+impl Data<T: Write + Clone> {
+
+    pub fn new(name: T) -> Self {
+        let data = Data { name: T };
+        
+        // `write()` is from the `Write` trait
+        // `clone() is from the `Clone` trait
+        name.clone().write(...); 
+    }
+}
+
+```
+
+By seperating the implementations of "Cloning an object" and "Writing to an object", we can use both interfaces together to create the exact logic needed. Then, if we don't intend to write to the object anymore, we can simply remove the `Clone` trait without hurting any functionality of the `Write` trait at all!
