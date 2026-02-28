@@ -5,8 +5,8 @@
   },
   "plugins": [
     {
-      "name": "software-engineer-workflow",
-      "source": "./plugins/software-engineer-workflow",
+      "name": "software-engineering",
+      "source": "./plugins/software-engineering",
       "description": "Adds a workflow for engineering software"
     }
   ]

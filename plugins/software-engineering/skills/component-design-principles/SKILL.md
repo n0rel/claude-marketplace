@@ -1,6 +1,11 @@
-# Principles of Object Oriented Design for Engineering
+---
+name: component-design-principles
+description: For use when needing to program good, high quality, stable code
+---
 
-The Principles of OOD are 8 principles by Robert C. Martin (otherwise known as Uncle Bob) that guide a software (but not only) engineer in creating stable, readable, and maintanable object oriented software. These **do not** only apply to high level object oriented programming languages, and the abstract ideas behind the principles can be extrapolated and used in other engineering contexts.
+# Principles of Component Design for Engineering
+
+The Principles of Component Design (also know as OOD, or Object Oriented Design) are 8 principles by Robert C. Martin (otherwise known as Uncle Bob) that guide a software (but not only) engineer in creating stable, readable, and maintanable object oriented software. These **do not** only apply to high level object oriented programming languages, and the abstract ideas behind the principles can be extrapolated and used in other engineering contexts.
 
 ## Overview
 The 8 principles are as follows:
@@ -16,20 +21,17 @@ The 8 principles are as follows:
 | SDP | The Stable Dependencies Principle   | Depend in the direction of stability.                                     |
 | SAP | The Stable Abstractions Principle   | Abstractness increases with stability.                                    |
 
-These 8 principles are relevant for any component of code such as a function, class, package, module, struct, etc.
-When developing software, you must always keep these 8 principles in mind. You must also always challenge the usage of the principles and wether or not they should be taken note of in the context of your current component. In some specific cases, there is good reason to not follow the principles. Always think hard about a reason not to use them.
+These 8 principles are relevant for any component of code such as a function, class, package, module, struct, microservice, etc.
 
 ## Choosing the Right Level of Rigor
-Not every principle **must** be applied to all components to the maximum. Deciding when the principles should be used and how far to take them is part of the process of engineering.
-A good guiding question of when to use any principle is as follows: **how many people will be affected if this component changes?** If the answer is _"just me, right now"_ then you are probably in a prototyping phase and change will come fast, and your code needs to be able to change fast. If the answer is _"multiple people over multiple years"_ then these principles can prevent messy codebases and unstable features.
+Not every principle **must** be applied to the max when designing components. Deciding when the principles should be used and how far to take them is part of the process of engineering.
+A good guiding question of when to use any principle is as follows: **how many people will be affected if this component changes?** If the answer is _"just me, right now"_ then you are probably in a prototyping phase and change will come fast, and you might be able to have a strong enough reason to justify not applying some of the principles. If the answer is _"multiple people over multiple years"_ then these principles can prevent messy codebases and unstable features. The goal is meaningful separation, not maximum separation.
 
-If splitting a component creates 5 new files and 8 new imports for what was 30 lines of cohesive logic, the code has become **less** readable. 
-The goal is meaningful separation, not maximum separation.
-
-When in doubt, favor the simpler design and refactor when a real second use case appears.
+When in doubt, favor a simple design and refactor when a real second use case appears.
 
 
 ## SRP (Single Responsibility Principle)
+### Principle Description
 The single responsibility principle is the idea that a component should have one reason to change.
 
 When designing a component, you should always think of the component's responsibiliy relative to the context it exists in. 
@@ -47,11 +49,10 @@ This is the same principle that drives the idea behind coupling. If a component 
 _Change_ occurs when _someone_ is unsatisfied with the current state of the system. Upon the introduction of change to a codebase, only the components that are relevant to that change should be affected.
 SRP is about _people_. When _someone_ wants to introduce a change, that change should only affect _them_.
 
-### When NOT to Apply SRP
+### When Should You Not Apply the Principle?
 Do not split a component if the two behaviors are so tightly coupled that separating them creates two components that always change together anyway. For example, serializing an object and validating its fields before serialization are often the same concern. Splitting them into two classes that must always be updated in lockstep is worse than one cohesive component. Also, in a small script or prototype, SRP at the function level is sufficient; you do not need to create class hierarchies.
 
-### SRP Violation Examples
-
+### Principle Violation Examples
 #### Using the word "manager" is usually a codesmell
 When the word "manager" is used it often indicates the writer of the code did not fully think about the components exact responsibility in the system and can do many things, each with a different reason to change.
 ```python
@@ -138,10 +139,14 @@ Now `check_age` only checks the age - it does exactly it's called. `read_age_fro
 
 
 ## OCP (Open Closed Principle)
+### Principle Description
 The Open Closed Principle states that you should be able to extend the behavior of a component _without_ having to modify it.
 In practice, this means designing components so that new functionality is added by writing new code (new classes, new implementations, new modules) rather than by editing existing, working code. Every time you modify an existing component to handle a new case, you risk breaking the existing cases it already handles.
 
-### Example of Violating OCP
+### When Should You Not Apply the Principle?
+If a component handles 2-3 cases and is unlikely to ever grow, a simple if/else is clearer than an abstraction hierarchy. OCP is most valuable when the number of variants is open-ended or growing. Do not preemptively create extension points for cases that may never arrive.
+
+### Principle Violation Examples
 The most common OCP violation is a growing chain of conditionals that must be edited every time a new variant is introduced.
 
 ```python
@@ -178,16 +183,12 @@ Now we can add more channels without accidentally hurting functionality of anoth
 
 In general, the Open Closed Principle shows itself throughout the rest of the principles so always keept it in mind.
 
-### When NOT to Apply OCP
-If a component handles 2-3 cases and is unlikely to ever grow, a simple if/else is clearer than an abstraction hierarchy. OCP is most valuable when the number of variants is open-ended or growing. 
-Do not preemptively create extension points for cases that may never arrive. Refactor toward OCP when the third case appears, not when the first is written.
-
-
 ## LSP (Liskov Substitution Principle)
+### Principle Description
 Liskov Substitution Principle states that wherever a type `T` is used, it can be replaced by a _subtype_ of `T`.
 This builds off OCP - you can extend the functionality of a component by using _subtypes_ to handle concrete logic without changing original code to incorporate said concreteness.
 
-### Example
+### Principle Usage Examples
 ```python
 from typing import Protocol
 
@@ -222,7 +223,7 @@ class FileRepository[T: str](DataRepository[T]):
 
 Now any components that rely upon the `DataRepository` type for storing and retrieving data can benefit from the functionality of storing and retreiving strings from a file.
 
-### LSP Violation Example
+### Principle Violation Examples
 Here is an example of violating the LSP principle:
 ```C#
 public class MariaDBManager
@@ -249,12 +250,13 @@ Although this complies with the Single Responsibility Principle due to seperatio
 
 
 ## ISP (Interface Segregation Principle)
+### Principle Description
 The Interface Segregation Principle is very simple if SRP is followed correctly: Seperate interfaces into components.
 The idea behind ISP is that no code should be forced to be dependent on functionality it _does not use_. If you design your interfaces with SRP in mind, this won't happen, but this principle helps enforce it.
 
 This principle is very strong in the `rust` language, where traits are used to abstract implementations
 
-### Example of using ISP
+### Principle Usage Examples
 ```rust
 pub struct Data<T: Write + Clone> {
     name: T
@@ -277,9 +279,11 @@ By seperating the implementations of "Cloning an object" and "Writing to an obje
 
 
 ## DIP (Dependency Inversion Principle)
+### Principle Description
 The Dependency Inversion Principle states that dependencies should **always** flow torward abstractions. If your components always depend on abstractions, they will automatically comply with the above principles (SRP, OCP, LSP). If your components depend on concrete implementations, you will have to change once they change as you are coupled with the concreteness.
 
-Simple illustration:
+
+### Principle Usage Examples
 ```
 +----------------+          +-------------+
 |  Coffee Making |          | Water       |
@@ -312,10 +316,12 @@ Now each component is dependent on _abstractions only_. This makes our code open
 
 
 ## ADP (Acyclic Dependencies Principle)
+### Principle Description
 The Acyclic Dependencies Principle is very upfront: There should be no cyclic dependencies between your components.
 If cyclic dependencies exist, or without clear seperation of dependencies, introducing change can cause effects that are impossible to foresee or fix. There isn't alot to add here: **make sure you understand the direction of dependencies your components have**.
 
 ## SDP (Stable Dependencies Principle)
+### Principle Description
 The Stable Dependencies Principle states that dependencies between components should **always** flow in the direction of the stability of the components. In other words, a component should only depend upon components that are more stable than it is.
 
 ### What is stability?
@@ -329,9 +335,8 @@ When change is introduced to the most stable components, the entire system is di
 
 If we guarantee that stability flows from highest to lowest in our dependency graph, we can introduce change to the least stable components without causing distruptions to other components.
 
-### Examples
-
-#### a
+### Principle Usage Examples
+#### Uncomplicated logging
 ```python
 def log(text: str):
     print(text)
@@ -351,4 +356,8 @@ def main():
 
 As you can see, the `log()` function is used in several contexts in the above code example. It is very _dependent_ upon, meaning it is _stable_. If we change the `log()` function, by adding another print, then both `main()` and `Worker` will experience change. If we now introduce a dependency to `log()`, one which is very _unstable_ and experiences frequent change (for example: writing to a file - the name can change frequently depending on whos maintaining the code), it will cause all the dependent components to change frequently too. It would be smarter for
 
+
 ## SAP (Stable Abstractions Principle)
+### Principle Description
+The stable abstractions principle states that the more stable components are, the more abstract they should be.
+You want concrete implementation components to be instable, meaning they change frequently, and abstractions to be stable, meaning they change infrequently. This way you can rely upon abstractions not changing often.

@@ -1,6 +1,6 @@
 ---
 name: python
-description: Has extensive knowledge about writing and reading python code
+description: For use when needing to implement, debug, review or understand high quality python code
 ---
 
 # Python Skill
