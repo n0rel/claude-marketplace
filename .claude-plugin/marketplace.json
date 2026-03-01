@@ -8,6 +8,11 @@
       "name": "software-engineering",
       "source": "./plugins/software-engineering",
       "description": "Adds a workflow for engineering software"
+    },
+    {
+      "name": "research",
+      "source": "./plugins/research",
+      "description": "Conducts research in a smart way"
     }
   ]
 }
