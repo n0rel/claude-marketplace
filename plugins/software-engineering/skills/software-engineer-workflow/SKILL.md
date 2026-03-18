@@ -1,6 +1,6 @@
 ---
 name: software-engineer-workflow
-description: Completes a software engineering task professionally
+description: Invoke this skill when creating a new feature, bug fix, etc. It will instruct you on how to professionally define, implement and review code.
 ---
 
 # Engineer Skill
@@ -20,10 +20,15 @@ When completing a software engineering task, the following workflow should take 
 (Wikipedia - Software Engineering)[https://en.wikipedia.org/wiki/Software_engineering]
 
 As a software engineer, you're goal is to write, design and maintain software and infrastructure.
-You must know how your software interacts with it's environment (both users and infrastructure) and always take it into consideration when going through the engineering process. You must understand that good software is one which is well documented, both in source code and in external documentation, well tested, and is written to make future maintainance easier.
+You must know how your software interacts with it's environment (both users and infrastructure) and always take it into consideration when going through the engineering process. 
+You must understand that good software is one which is well documented, both in source code and in external documentation, well tested, and is written to make future maintainance easier.
 
 ## 0. Codebase Exploration
-Before we begin, use the `Task(repository-explorer)` tool in order to launch a subagent that will summarize the current code repository. Tell it to follow its exact instructions, do not give it a custom prompt. They should report back with a structured report on the current codebase. Use it as a reference when continuing, so you don't need to re explore the codebase for each section.
+Before we begin, launch a repository-explorer agent that will summarize the current code repository. 
+Tell it to follow its exact instructions, do not give it a custom prompt. 
+They should report back with a structured report on the current codebase. Use it as a reference when continuing, so you don't need to re explore the codebase for each section.
+
+Now, use the `EnterPlanMode` tool to enter planning mode.
 
 ## 1. Defining The Task
 When given a task, the first thing to do is to define the problem the task is trying to solve by answering the following questions:
@@ -59,10 +64,28 @@ By now you should have a good understanding of the following:
 Verify with yourself that you do indeed understand these two points. If you have any doubts, ask the developer follow up questions using the `AskUserQuestion` tool.
 
 ## 3. Create Several Solution Implementations
-Create several implementations for a solution to the task. For each implementation, define explicity it's pros and cons. When finished display each implementation to the developer using the `AskUserQuestion` tool in order to ask for their preferred implementation.
+Think about several implementations for a solution to the task. 
+For each implementation, define explicity it's pros and cons, and define a devils advocate line that describes why the implementation is a bad idea.
+When finished, display each implementation to the developer using the `AskUserQuestion` tool in order to ask for their preferred implementation.
 
 ## 4. Break Down Architecture Into Sub Tasks
-Now that you have a chosen implementation, break it down into subtasks using the `TaskCreate` tool. Make sure to note which tasks need to be finished before other tasks, and which tasks can be done in parallel.
+Now that you have a chosen implementation, break it down into subtasks using the `TaskCreate` tool.
+Make sure to note which tasks need to be finished before other tasks, and which tasks can be done in parallel.
+
+Now, use the `ExitPlanMode` tool to exit planning mode.
 
 ## 5. Implement Sub Tasks
-Start by creating a new branch using `Bash(git checkout -b)`. This is where you will implement the tasks. Then list all tasks using the `TaskList` tool and start working on tasks in parallel (if they do not block each other) by using the `TaskGet` tool. Once you are finished with it, use the `TaskUpdate` tool to update your progress and continue on to the next task. Continue until you finish all tasks. Once you are finished with all the tasks, commit your changes to the new branch using `Bash(git add)` tool and `Bash(git commit)` tool with a single sentence as the commit message explaining the changes implemented during this workflow.
+Start by creating a new branch using `Bash(git checkout -b)`.
+This is where you will implement the tasks. Then list all tasks using the `TaskList` tool and start working on tasks in parallel (if they do not block each other) by using the `TaskGet` tool. Once you are finished with it, use the `TaskUpdate` tool to update your progress and continue on to the next task. Continue until you finish all tasks. Once you are finished with all the tasks, commit your changes to the new branch using `Bash(git add)` tool and `Bash(git commit)` tool with a single sentence as the commit message explaining the changes implemented during this workflow.
+
+## 6. Review Code
+Launch a subagent with the task of reviewing the changes made from the commit you made.
+Make sure the agent does not review the entire codebase, but only the diff made between the latest commit and the one before.
+
+## 7. Create Documentation
+Now, use the `Skill(knowledge)` tool and update the codebase knowledge file with changes you made in this task.
+
+
+## Follow Ups
+Once finished, the user will review the task result and may provide subsequent input.
+If prompted to change anything, use the `EnterPlanMode` tool to enter planning mode and move back to step 3 (Create Several Solution Implementations) and work your way to step 7 again. Repeat until the user is satisfied with your work on the task.
