@@ -83,7 +83,7 @@ Launch a subagent with the task of reviewing the changes made from the commit yo
 Make sure the agent does not review the entire codebase, but only the diff made between the latest commit and the one before.
 
 ## 7. Create Documentation
-Now, use the `Skill(knowledge)` tool and update the codebase knowledge file with changes you made in this task.
+Now, use the `Skill(knowledge)` tool and check for a knowledge file named `CODEBASE.md`. Update that file with the latest commit and changes you made throughout this skill usage.
 
 
 ## Follow Ups
