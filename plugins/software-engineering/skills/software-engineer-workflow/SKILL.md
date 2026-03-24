@@ -85,7 +85,9 @@ Make sure the agent does not review the entire codebase, but only the diff made 
 ## 7. Create Documentation
 Now, use the `knowledge` skill and check for a knowledge file named `CODEBASE.md`. Update that file with the latest commit and changes you made throughout this skill usage.
 
-
 ## Follow Ups
 Once finished, the user will review the task result and may provide subsequent input.
 If prompted to change anything, use the `EnterPlanMode` tool to enter planning mode and move back to step 3 (Create Several Solution Implementations) and work your way to step 7 again. Repeat until the user is satisfied with your work on the task.
+
+## Finish
+Once everything is done and the user is satisfied, commit all changes and rebase on the branch you were originally on. Fix all rebase conflicts, commit, and finish execution.
