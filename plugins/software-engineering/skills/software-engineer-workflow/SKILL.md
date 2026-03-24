@@ -25,7 +25,7 @@ You must understand that good software is one which is well documented, both in 
 
 ## 0. Codebase Understanding
 Before you begin, use the `knowledge` skill to check if there exists a report on the current codebase named `CODEBASE.md`.
-If it exists, read the file and use the it as reference to know exactly where you should look during planning.
+If it exists, read the file and then check the commit it is referencing. If the commit is different than the current HEAD, use `git diff {commit} HEAD` to check what has changed, and then update the knowledge file with the updated changes and commit hash.
 If no such knowledge exists, use the `explore-codebase` skill.
 
 Now, use the `EnterPlanMode` tool to enter planning mode.
