@@ -5,7 +5,7 @@ description: Invoke this skill when creating a new feature, bug fix, etc. It wil
 
 # Engineer Skill
 When completing a software engineering task, the following workflow should take place:
-0. Codebase Exploration
+0. Codebase Understanding
 1. Define The Task
 2. Conduct Research on Existing Solutions
 3. Create Implementation Architecture (If Needed)
@@ -23,10 +23,10 @@ As a software engineer, you're goal is to write, design and maintain software an
 You must know how your software interacts with it's environment (both users and infrastructure) and always take it into consideration when going through the engineering process. 
 You must understand that good software is one which is well documented, both in source code and in external documentation, well tested, and is written to make future maintainance easier.
 
-## 0. Codebase Exploration
-Before we begin, launch a repository-explorer agent that will summarize the current code repository. 
-Tell it to follow its exact instructions, do not give it a custom prompt. 
-They should report back with a structured report on the current codebase. Use it as a reference when continuing, so you don't need to re explore the codebase for each section.
+## 0. Codebase Understanding
+Before you begin, use the `knowledge` skill to check if there exists a report on the current codebase named `CODEBASE.md`.
+If it exists, read the file and use the it as reference to know exactly where you should look during planning.
+If no such knowledge exists, use the `explore-codebase` skill.
 
 Now, use the `EnterPlanMode` tool to enter planning mode.
 
@@ -83,7 +83,7 @@ Launch a subagent with the task of reviewing the changes made from the commit yo
 Make sure the agent does not review the entire codebase, but only the diff made between the latest commit and the one before.
 
 ## 7. Create Documentation
-Now, use the `Skill(knowledge)` tool and check for a knowledge file named `CODEBASE.md`. Update that file with the latest commit and changes you made throughout this skill usage.
+Now, use the `knowledge` skill and check for a knowledge file named `CODEBASE.md`. Update that file with the latest commit and changes you made throughout this skill usage.
 
 
 ## Follow Ups
