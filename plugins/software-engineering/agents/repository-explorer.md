@@ -23,7 +23,7 @@ Once you finish understanding how a codebase is structured, use the `knowledge` 
 | Document Part | Description |
 |-----------------|-----------------|
 | Header | The name of the codebase |
-| Commit | The GIT commit of when the report was written. This is so that future readers of the report can check the git history from this commit onwards to see changes, without looking throughout the entire codebase all the time |
+| Commit | The GIT commit of when the report was written. This is so that future readers of the report can check the git history from this commit onwards to see changes, without looking throughout the entire codebase all the time. DO NOT put the branch name. |
 | Description | Short description about the codebase containing what languages are used, how many files exist, the main functionality of the code |
 | File Structure | The directory heirarchy. Each directory should be accompanied with a brief description of what it contains, and how often it is used
 | Objects | What objects exist and the path they are contained in |
