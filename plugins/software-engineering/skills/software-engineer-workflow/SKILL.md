@@ -24,11 +24,13 @@ You must know how your software interacts with it's environment (both users and 
 You must understand that good software is one which is well documented, both in source code and in external documentation, well tested, and is written to make future maintainance easier.
 
 ## 0. Codebase Understanding
-Use the `knowledge` skill to check if there exists a report on the current codebase named `CODEBASE.md`. Invoke the skill.
+Use the `knowledge` skill to check if there exists a report on the current codebase named `CODEBASE.md`.
 If it exists, read the file and then check the commit it is referencing. If the commit is different than the current HEAD, use `git diff {commit} HEAD` to check what has changed, and then update the knowledge file with the updated changes and commit hash.
 If no such knowledge exists, use the `explore-codebase` skill.
 
 Now, use the `EnterPlanMode` tool to enter planning mode.
+
+When planning reference the codebase report because it contains an accurate up to date description of each file, function and class. You must use the reference in order to decide which files to read while planning. Do not start reading the entire codebase for no reason.
 
 ## 1. Defining The Task
 When given a task, the first thing to do is to define the problem the task is trying to solve by answering the following questions:
@@ -83,7 +85,7 @@ Launch a subagent with the task of reviewing the changes made from the commit yo
 Make sure the agent does not review the entire codebase, but only the diff made between the latest commit and the one before.
 
 ## 7. Create Documentation
-Now, use the `knowledge` skill and check for a knowledge file named `CODEBASE.md`. Update that file with the latest commit and changes you made throughout this skill usage.
+Now, use the `knowledge` skill and update that `CODEBASE.md` with the latest commit and changes you made throughout this skill usage.
 
 ## Follow Ups
 Once finished, the user will review the task result and may provide subsequent input.
